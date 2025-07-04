@@ -7,11 +7,11 @@ namespace MuseumTour
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-
+            
             var tour = new MuseumTour
             {
                 nameof = "Basic Tour"
-            };
+            }
         }
     }
 }

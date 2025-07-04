@@ -23,8 +23,6 @@ namespace Domain
 
         [XmlArray("Members"), XmlArrayItem("Member")]
         public List<Member> Members { get; set; } = new();
-
-        [XmlArray("Visits"), XmlArrayItem("Visit")]
     }
     public class City
     {
@@ -40,12 +38,3 @@ namespace Domain
         public double Longitude { get; set; }
 
     }
-    public class Member
-    {
-        [XmlAttribute("id")]
-        public Guid Id { get; set; } = Guid.NewGuid(); // Generates a new ID for each Member instance.
-        [XmlAttribute("name")]
-        public string Name { get; set; } = string.Empty;
-
-    }
-}
