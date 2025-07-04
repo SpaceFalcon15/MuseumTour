@@ -23,7 +23,7 @@ namespace DataStorage
         public void Save(MuseumToursDocumentation data)
         {
             var serializer = new XmlSerializer(typeof(MuseumToursDocumentation));
-            using var stream = File.Create(_filePath);
+            using var stream = File.Create(_filePath); 
             serializer.Serialize(stream, data);
         }
     }

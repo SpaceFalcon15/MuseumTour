@@ -7,11 +7,9 @@ namespace MuseumTour
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            
-            var tour = new MuseumTour
-            {
-                nameof = "Basic Tour"
-            }
+
+            var tour = new Domain.MuseumTour { Name = "Sample Tour" };
+            Console.WriteLine($"Tour Name: {tour.Id}");
         }
     }
 }
