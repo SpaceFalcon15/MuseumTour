@@ -30,6 +30,37 @@ namespace BusinessLogic
             return tour; // Return the newly created tour.
         }
 
+        public City AddCityToTour(Guid tourId, string cityName, DateTime start, DateTime end)
+        {
+            MuseumTour tour = null;
+            foreach (var t in _doc.Tours)
+            {
+                if (t.Id == tourId)
+                {
+                    tour = t; // Find the tour by ID.
+                    break;
+                }
+            }
+            if (tour == null)
+            {
+                throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
+            }
+
+            bool cityExists = false;
+            foreach (var c in tour.Cities)
+            {
+                if (c.Name.ToLower() == cityName.ToLower())
+                {
+                    cityExists = true; // Check if the city already exists in the tour.
+                    break;
+                }
+            }
+            if (cityExists)
+            {
+                throw new ApplicationException($"{cityName} already exists in the tour."); // Throw an exception if the city already exists.
+            }
+        }
+
         public List<MuseumTour> GetTours()
         {
             return _doc.Tours; // Return the list of tours from the documentation.
