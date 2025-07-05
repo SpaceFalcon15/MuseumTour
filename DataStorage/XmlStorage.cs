@@ -5,7 +5,7 @@ using Domain;
 
 namespace DataStorage
 {
-    class XmlStorage
+    public class XmlStorage
     {
         private readonly string _filePath;
         public XmlStorage(string filePath)
