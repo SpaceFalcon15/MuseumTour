@@ -14,9 +14,9 @@ namespace Domain
         [XmlAttribute("name")]
         public string Name { get; set; } = string.Empty; // Name of the city, initialized to an empty string.
         [XmlAttribute("start")]
-        public DateOnly StartDate { get; set; } // Start date of the tour in the city, using DateOnly to represent a date without time.
+        public DateTime StartDate { get; set; } // Start date of the tour in the city.
         [XmlAttribute("end")]
-        public DateOnly EndDate { get; set; } // End date of the tour in the city, using DateOnly to represent a date without time.
+        public DateTime EndDate { get; set; } // End date of the tour in the city.
         [XmlArray("Museums"), XmlArrayItem("Museum")]
         public List<Museum> Museums { get; set; } = new(); // List of museums in the city.
 

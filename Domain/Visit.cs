@@ -18,6 +18,6 @@ namespace Domain
         [XmlAttribute("museumId")]
         public Guid MuseumId { get; set; } // ID of the museum visited.
         [XmlAttribute("date")]
-        public DateOnly Date { get; set; } // Date of the visit.
+        public DateTime Date { get; set; } // Date of the visit.
     }
 }
