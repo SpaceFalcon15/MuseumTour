@@ -18,7 +18,7 @@ namespace MuseumTour
             string tourName = Console.ReadLine()!; 
             var tour = admin.AddTour(tourName);
 
-            Console.WriteLine($"Tour '{tour.Name}' has been created successfully!");
+            Console.WriteLine($"Tour '{tour.Name}' has been created successfully with {tour.Id}!");
 
         }
     }
