@@ -26,7 +26,7 @@ namespace MuseumTour
 
             Console.WriteLine("Tour saved successfully to XML!");
 
-            var storage = new XmlStorage("museumTours.xml");
+            storage = new XmlStorage("museumTours.xml");
             var admin = new AdminService(storage);
 
             //Create a tour via business logic
