@@ -19,5 +19,7 @@ namespace Domain
         public Guid MuseumId { get; set; } // ID of the museum visited.
         [XmlAttribute("date")]
         public DateTime Date { get; set; } // Date of the visit.
+        [XmlAttribute("isPaid")]
+        public bool IsPaid { get; set; } = false;
     }
 }

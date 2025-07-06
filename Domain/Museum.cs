@@ -15,5 +15,7 @@ namespace Domain
         public string Name { get; set; } = string.Empty; // Name of the museum, initialized to an empty string.
         [XmlAttribute("cost")]
         public double Cost { get; set; } // Cost of visiting the museum.
+        [XmlArray("Visits"), XmlArrayItem("Visit")]
+        public List<Visit> Visits { get; set; } = new();
     }   
 }
