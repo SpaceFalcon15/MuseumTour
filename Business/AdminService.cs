@@ -76,7 +76,101 @@ namespace BusinessLogic
             _storage.Save(_doc); // Save the updated documentation back to the XML file.
             return city; // Return the newly created city.
         }
+        public Museum AddMuseumToCity (Guid tourId, Guid cityId, string museumName, double cost)
+        {
+            MuseumTour tour = null;
+            foreach (var t in _doc.Tours)
+            {
+                if (t.Id == tourId)
+                {
+                    tour = t; // Find the tour by ID.
+                    break;
+                }
+            }
+            if (tour == null)
+            {
+                throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
+            }
+            City city = null;
+            foreach (var c in tour.Cities)
+            {
+                if (c.Id == cityId)
+                {
+                    city = c; // Find the city by ID.
+                    break;
+                }
+            }
+            if (city == null)
+            {
+                throw new ApplicationException("City not found in the tour"); // Throw an exception if the city does not exist.
+            }
+            if (string.IsNullOrWhiteSpace(museumName))
+            {
+                throw new ApplicationException("Museum name cannot be empty."); // Validate the museum name.
+            }
+            foreach (var exisiting in city.Museums)
+            {
+                if (exisiting.Name.ToLower() == museumName.ToLower())
+                {
+                    throw new ApplicationException($"{museumName} already exists in {city.Name}."); // Check if the museum already exists in the city.
+                }
+            }
 
+            if (cost < 0)
+            {
+                throw new ApplicationException("Cost cannot be negative."); // Validate the cost of the museum. 
+            }
+
+            var museum = new Museum { Name = museumName, Cost = cost }; // Create a new museum instance with the provided name and cost.
+            city.Museums.Add(museum); // Add the new museum to the city's list of museums.
+            _storage.Save(_doc); // Save the updated documentation back to the XML file.
+            return museum; // Return the newly created museum.
+        }
+
+        public void RemoveMuseumFromCIty(Guid tourId, Guid cityId, Guid museumId)
+        {
+            MuseumTour tour = null;
+            foreach (var t in _doc.Tours)
+            {
+                if (t.Id == tourId)
+                {
+                    tour = t; // Find the tour by ID.
+                    break;
+                }
+            }
+            if (tour == null)
+            {
+                throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
+            }
+            City city = null;
+            foreach (var c in tour.Cities)
+            {
+                if (c.Id == cityId)
+                {
+                    city = c; // Find the city by ID.
+                    break;
+                }
+            }
+            if (city == null)
+            {
+                throw new ApplicationException("City not found in the tour"); // Throw an exception if the city does not exist.
+            }
+            Museum museum = null;
+            foreach (var m in city.Museums)
+            {
+                if (m.Id == museumId)
+                {
+                    museum = m; // Find the museum by ID.
+                    break;
+                }
+            }
+            if (museum == null)
+            {
+                throw new ApplicationException("Museum not found in the city"); // Throw an exception if the museum does not exist.
+            }
+            city.Museums.Remove(museum); // Remove the museum from the city's list of museums.
+            _storage.Save(_doc); // Save the updated documentation back to the XML file.
+        }
         public List<MuseumTour> GetTours()
         {
             return _doc.Tours; // Return the list of tours from the documentation.

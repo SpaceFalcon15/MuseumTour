@@ -80,6 +80,61 @@ namespace MuseumTour
             {
                 Console.WriteLine($"Error: {ex.Message}"); // Catch and display any errors that occur during city addition.
             }
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                {
+                    break; // Exit the loop if the tour ID is valid.
+                }
+                Console.WriteLine("Invalid tour ID format. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                {
+                    break; // Exit the loop if the city ID is valid.
+                }
+                Console.WriteLine("Invalid city ID format. Please try again.");
+            }
+
+            string museumName;
+            while (true)
+            {
+                Console.Write("Enter museum name: ");
+                museumName = Console.ReadLine()!; // Taking input from the user for the museum name.
+                if (!string.IsNullOrWhiteSpace(museumName)) // Check if the museum name is not empty or whitespace.
+                {
+                    break; // Exit the loop if the museum name is valid.
+                }
+                Console.WriteLine("The museum name cannot be empty. Please try again."); // Prompt the user to enter a valid museum name.
+            }
+
+            double cost;
+            while (true)
+            {
+                Console.Write("Enter museum cost: ");
+                if (double.TryParse(Console.ReadLine(), out cost) && cost >= 0)
+                {
+                    break; // Exit the loop if the cost is valid and non-negative.
+                }
+                Console.WriteLine("Invalid cost format. Please try again.");
+            }
+
+            try
+            {
+                var museum = admin.AddMuseumToCity(tourId, cityId, museumName, cost);
+                Console.WriteLine($"Museum added with:\n ID: {museum.Id},\n Name: {museum.Name},\n Cost: {museum.Cost}");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}"); // Catch and display any errors that occur during museum addition.
+            }
         }
     }
 }
