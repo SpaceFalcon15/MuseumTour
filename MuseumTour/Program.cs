@@ -11,7 +11,7 @@ namespace MuseumTour
             Console.WriteLine("Hello, World!");
 
             var tour = new Domain.MuseumTour { Name = "Sample Tour" };
-            Console.WriteLine($"Tour Name: {tour.Id}");
+            Console.WriteLine($"Tour Id: {tour.Id}");
 
             // Loads in existing data from XML file or creates a new one
             var storage = new DataStorage.XmlStorage("musuemtours.xml");
@@ -134,6 +134,70 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}"); // Catch and display any errors that occur during museum addition.
+            }
+
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+            string memberName;
+            while (true)
+            {
+                Console.Write("Enter member name: ");
+                memberName = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(memberName))
+                    break;
+                Console.WriteLine("Member name cannot be empty. Please try again.");
+            }
+
+            string bookingNumber;
+            while (true)
+            {
+                Console.Write("Enter booking number: ");
+                bookingNumber = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(bookingNumber))
+                    break;
+                Console.WriteLine("Booking number cannot be empty. Please try again.");
+            }
+
+            try
+            {
+                var member = admin.AddMemberToTour(tourId, memberName, bookingNumber);
+                Console.WriteLine($"Member added with ID: {member.Id}");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid memberId;
+            while (true)
+            {
+                Console.Write("Enter member ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out memberId))
+                    break;
+                Console.WriteLine("Invalid member ID. Please try again.");
+            }
+
+            try
+            {
+                admin.RemoveMemberFromTour(tourId, memberId);
+                Console.WriteLine("Member removed successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
     }
