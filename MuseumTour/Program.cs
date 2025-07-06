@@ -8,197 +8,130 @@ namespace MuseumTour
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var storage = new XmlStorage("data.xml");
+            var doc = storage.Load(); // returns a MuseumTourDocument
+            var admin = new AdminService(doc, storage);
 
-            var tour = new Domain.MuseumTour { Name = "Sample Tour" };
-            Console.WriteLine($"Tour Id: {tour.Id}");
+            while (true)
+            {
+                Console.WriteLine("\n=== Museum Tour Admin Menu ===");
+                Console.WriteLine("1. Add tour");
+                Console.WriteLine("2. Remove tour");
+                Console.WriteLine("3. Add city to tour");
+                Console.WriteLine("4. Add museum to city");
+                Console.WriteLine("5. Add member to tour");
+                Console.WriteLine("6. Add member visit");
+                Console.WriteLine("7. Remove member visit");
+                Console.WriteLine("8. Remove city");
+                Console.WriteLine("9. Remove museum");
+                Console.WriteLine("10. Remove member from tour");
+                Console.WriteLine("0. Exit");
+                Console.Write("Choose an option: ");
 
-            // Loads in existing data from XML file or creates a new one
-            var storage = new DataStorage.XmlStorage("musuemtours.xml");
+                string? input = Console.ReadLine();
+                Console.WriteLine();
 
-            var data = storage.Load(); // Load existing data or create a new instance if the file does not exist.
-            //Add a new tour for testing purposes
-            var Tour = new Domain.MuseumTour { Name = "Basic Tour" }; // Create a new tour instance with a name.
-            data.Tours.Add(Tour); // Add the new tour to the list of tours in the data.
-
-            //Save the tour back to the file
-            storage.Save(data); // Save the updated data back to the XML file.
-
-            Console.WriteLine("Tour saved successfully to XML!");
-
-            storage = new XmlStorage("museumTours.xml");
-            var admin = new AdminService(storage);
-
-            //Create a tour via business logic
+                switch (input)
+                {
+                    case "1":
+                        AddTour(admin);
+                        break;
+                    case "2":
+                        RemoveTour(admin);
+                        break;
+                    case "3":
+                        AddCityToTour(admin);
+                        break;
+                    case "4":
+                        AddMuseumToCity(admin);
+                        break;
+                    case "5":
+                        AddMemberToTour(admin);
+                        break;
+                    case "6":
+                        AddVisit(admin);
+                        break;
+                    case "7":
+                        RemoveVisit(admin);
+                        break;
+                    case "8":
+                        RemoveCityFromTour(admin);
+                        break;
+                    case "9":
+                        RemoveMuseumFromCity(admin);
+                        break;
+                    case "10":
+                        RemoveMemberFromTour(admin);
+                        break;
+                    case "0":
+                        Console.WriteLine("Goodbye!");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            }
+        }
+        static void AddTour(AdminService admin)
+        {
+            Console.WriteLine("Add Tour");
             Console.Write("Enter tour name: ");
-            // Taking input from the user for the tour name.  // Also tells the compiler that the value won't be null at runtime using !
-            string tourName = Console.ReadLine()!;
-            tour = admin.AddTour(tourName);
-
-            Console.WriteLine($"Tour '{tour.Name}' has been created successfully with the ID {tour.Id}!");
-
-            string cityName;
-            while (true)
-            {
-                Console.Write("Enter city name: ");
-                cityName = Console.ReadLine()!; // Taking input from the user for the city name.
-                if (!string.IsNullOrWhiteSpace(cityName)) // Check if the city name is not empty or whitespace.
-                {
-                    break; // Exit the loop if the city name is valid.
-                }
-                Console.WriteLine("The city name cannot be empty. Please try again."); // Prompt the user to enter a valid city name.
-            }
-            DateTime startDate, endDate;
-
-            while (true)
-            {
-                Console.Write("Enter start date (yyyy-MM-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out startDate))
-                {
-                    break; // Exit the loop if the date is valid.
-                }
-
-                Console.WriteLine("Invalid date format. Please try again.");
-            }
-
-            while (true)
-            {
-                Console.Write("Enter end date (yyyy-MM-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out endDate) && endDate > startDate)
-                {
-                    break; // Exit the loop if the date is valid and after the start date.
-                }
-                Console.WriteLine("Invalid date format or end date is not after start date. Please try again.");
-            }
+            string name = Console.ReadLine() ?? string.Empty;
 
             try
             {
-                var city = admin.AddCityToTour(tour.Id, cityName, startDate, endDate);
-                Console.WriteLine($"City added with:\n ID: {city.Id},\n Name: {city.Name},\n Start Date: {city.StartDate},\n End Date: {city.EndDate}");
+                var tour = admin.AddTour(name);
+                Console.WriteLine($" Tour created with ID: {tour.Id} and Name:{tour.Name}");
             }
             catch (ApplicationException ex)
             {
-                Console.WriteLine($"Error: {ex.Message}"); // Catch and display any errors that occur during city addition.
+                Console.WriteLine($" Error: {ex.Message}");
             }
+        }
 
-            Guid tourId;
-            while (true)
-            {
-                Console.Write("Enter tour ID: ");
-                if (Guid.TryParse(Console.ReadLine(), out tourId))
-                {
-                    break; // Exit the loop if the tour ID is valid.
-                }
-                Console.WriteLine("Invalid tour ID format. Please try again.");
-            }
+        static void RemoveTour(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            Guid cityId;
-            while (true)
-            {
-                Console.Write("Enter city ID: ");
-                if (Guid.TryParse(Console.ReadLine(), out cityId))
-                {
-                    break; // Exit the loop if the city ID is valid.
-                }
-                Console.WriteLine("Invalid city ID format. Please try again.");
-            }
+        static void AddCityToTour(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            string museumName;
-            while (true)
-            {
-                Console.Write("Enter museum name: ");
-                museumName = Console.ReadLine()!; // Taking input from the user for the museum name.
-                if (!string.IsNullOrWhiteSpace(museumName)) // Check if the museum name is not empty or whitespace.
-                {
-                    break; // Exit the loop if the museum name is valid.
-                }
-                Console.WriteLine("The museum name cannot be empty. Please try again."); // Prompt the user to enter a valid museum name.
-            }
+        static void AddMuseumToCity(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            double cost;
-            while (true)
-            {
-                Console.Write("Enter museum cost: ");
-                if (double.TryParse(Console.ReadLine(), out cost) && cost >= 0)
-                {
-                    break; // Exit the loop if the cost is valid and non-negative.
-                }
-                Console.WriteLine("Invalid cost format. Please try again.");
-            }
+        static void AddMemberToTour(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            try
-            {
-                var museum = admin.AddMuseumToCity(tourId, cityId, museumName, cost);
-                Console.WriteLine($"Museum added with:\n ID: {museum.Id},\n Name: {museum.Name},\n Cost: {museum.Cost}");
-            }
-            catch (ApplicationException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}"); // Catch and display any errors that occur during museum addition.
-            }
+        static void AddVisit(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            while (true)
-            {
-                Console.Write("Enter tour ID: ");
-                if (Guid.TryParse(Console.ReadLine(), out tourId))
-                    break;
-                Console.WriteLine("Invalid tour ID. Please try again.");
-            }
-            string memberName;
-            while (true)
-            {
-                Console.Write("Enter member name: ");
-                memberName = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(memberName))
-                    break;
-                Console.WriteLine("Member name cannot be empty. Please try again.");
-            }
+        static void RemoveVisit(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            string bookingNumber;
-            while (true)
-            {
-                Console.Write("Enter booking number: ");
-                bookingNumber = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(bookingNumber))
-                    break;
-                Console.WriteLine("Booking number cannot be empty. Please try again.");
-            }
+        static void RemoveCityFromTour(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            try
-            {
-                var member = admin.AddMemberToTour(tourId, memberName, bookingNumber);
-                Console.WriteLine($"Member added with ID: {member.Id}");
-            }
-            catch (ApplicationException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+        static void RemoveMuseumFromCity(AdminService admin)
+        {
+            // TODO: Implement
+        }
 
-            while (true)
-            {
-                Console.Write("Enter tour ID: ");
-                if (Guid.TryParse(Console.ReadLine(), out tourId))
-                    break;
-                Console.WriteLine("Invalid tour ID. Please try again.");
-            }
-
-            Guid memberId;
-            while (true)
-            {
-                Console.Write("Enter member ID: ");
-                if (Guid.TryParse(Console.ReadLine(), out memberId))
-                    break;
-                Console.WriteLine("Invalid member ID. Please try again.");
-            }
-
-            try
-            {
-                admin.RemoveMemberFromTour(tourId, memberId);
-                Console.WriteLine("Member removed successfully.");
-            }
-            catch (ApplicationException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+        static void RemoveMemberFromTour(AdminService admin)
+        {
+            // TODO: Implement
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BusinessLogic
         private readonly XmlStorage _storage;
         private readonly MuseumToursDocumentation _doc;
 
-        public AdminService(XmlStorage storage)
+        public AdminService(MuseumToursDocumentation doc, XmlStorage storage)
         {
             _storage = storage;
             _doc = _storage.Load(); // Load existing data or create a new instance if the file does not exist.
