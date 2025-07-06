@@ -14,7 +14,7 @@ namespace MuseumTour
 
             while (true)
             {
-                Console.WriteLine("\n=== Museum Tour Admin Menu ===");
+                Console.WriteLine("Museum Tour Admin Menu");
                 Console.WriteLine("1. Add tour");
                 Console.WriteLine("2. Remove tour");
                 Console.WriteLine("3. Add city to tour");
@@ -91,47 +91,400 @@ namespace MuseumTour
 
         static void RemoveTour(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Remove Tour");
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter the Tour ID to remove: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid Tour ID. Please try again.");
+            }
+            try
+            {
+                admin.RemoveTour(tourId);
+                Console.WriteLine("Tour removed successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($" Error: {ex.Message}");
+            }
         }
 
         static void AddCityToTour(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Add City to Tour");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            string cityName;
+            while (true)
+            {
+                Console.Write("Enter city name: ");
+                cityName = Console.ReadLine() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(cityName))
+                    break;
+                Console.WriteLine("City name cannot be empty.");
+            }
+
+            DateTime startDate;
+            while (true)
+            {
+                Console.Write("Enter start date (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out startDate))
+                    break;
+                Console.WriteLine("Invalid start date.");
+            }
+
+            DateTime endDate;
+            while (true)
+            {
+                Console.Write("Enter end date (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out endDate))
+                    break;
+                Console.WriteLine("Invalid end date.");
+            }
+
+            try
+            {
+                var city = admin.AddCityToTour(tourId, cityName, startDate, endDate);
+                Console.WriteLine($"City added with ID: {city.Id}");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void AddMuseumToCity(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Add Museum to City");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                    break;
+                Console.WriteLine("Invalid city ID. Please try again.");
+            }
+
+            string museumName;
+            while (true)
+            {
+                Console.Write("Enter museum name: ");
+                museumName = Console.ReadLine() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(museumName))
+                    break;
+                Console.WriteLine("Museum name cannot be empty.");
+            }
+
+            double cost;
+            while (true)
+            {
+                Console.Write("Enter museum cost: ");
+                if (double.TryParse(Console.ReadLine(), out cost) && cost >= 0)
+                    break;
+                Console.WriteLine("Invalid cost. Please enter a non-negative number.");
+            }
+
+            try
+            {
+                var museum = admin.AddMuseumToCity(tourId, cityId, museumName, cost);
+                Console.WriteLine($"Museum added with ID: {museum.Id}");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void AddMemberToTour(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("=== Add Member to Tour ===");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            string memberName;
+            while (true)
+            {
+                Console.Write("Enter member name: ");
+                memberName = Console.ReadLine() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(memberName))
+                    break;
+                Console.WriteLine("Member name cannot be empty.");
+            }
+
+            string bookingNumber;
+            while (true)
+            {
+                Console.Write("Enter booking number: ");
+                bookingNumber = Console.ReadLine() ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(bookingNumber))
+                    break;
+                Console.WriteLine("Booking number cannot be empty.");
+            }
+
+            try
+            {
+                var member = admin.AddMemberToTour(tourId, memberName, bookingNumber);
+                Console.WriteLine($"Member added with ID: {member.Id}");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void AddVisit(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("=== Add Member Visit ===");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                    break;
+                Console.WriteLine("Invalid city ID. Please try again.");
+            }
+
+            Guid museumId;
+            while (true)
+            {
+                Console.Write("Enter museum ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out museumId))
+                    break;
+                Console.WriteLine("Invalid museum ID. Please try again.");
+            }
+
+            Guid memberId;
+            while (true)
+            {
+                Console.Write("Enter member ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out memberId))
+                    break;
+                Console.WriteLine("Invalid member ID. Please try again.");
+            }
+
+            DateTime visitDate;
+            while (true)
+            {
+                Console.Write("Enter visit date (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out visitDate))
+                    break;
+                Console.WriteLine("Invalid date format. Please try again.");
+            }
+
+            try
+            {
+                admin.AddVisit(tourId, cityId, museumId, memberId, visitDate);
+                Console.WriteLine("Visit booked successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void RemoveVisit(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Remove Member Visit");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                    break;
+                Console.WriteLine("Invalid city ID. Please try again.");
+            }
+
+            Guid museumId;
+            while (true)
+            {
+                Console.Write("Enter museum ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out museumId))
+                    break;
+                Console.WriteLine("Invalid museum ID. Please try again.");
+            }
+
+            Guid memberId;
+            while (true)
+            {
+                Console.Write("Enter member ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out memberId))
+                    break;
+                Console.WriteLine("Invalid member ID. Please try again.");
+            }
+
+            DateTime visitDate;
+            while (true)
+            {
+                Console.Write("Enter visit date (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out visitDate))
+                    break;
+                Console.WriteLine("Invalid date format. Please try again.");
+            }
+
+            try
+            {
+                admin.RemoveVisit(tourId, cityId, museumId, memberId, visitDate);
+                Console.WriteLine("Visit removed successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void RemoveCityFromTour(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Remove City from Tour");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                    break;
+                Console.WriteLine("Invalid city ID. Please try again.");
+            }
+
+            try
+            {
+                admin.RemoveCityFromTour(tourId, cityId);
+                Console.WriteLine("City removed from tour successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void RemoveMuseumFromCity(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Remove Museum from City");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid cityId;
+            while (true)
+            {
+                Console.Write("Enter city ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out cityId))
+                    break;
+                Console.WriteLine("Invalid city ID. Please try again.");
+            }
+
+            Guid museumId;
+            while (true)
+            {
+                Console.Write("Enter museum ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out museumId))
+                    break;
+                Console.WriteLine("Invalid museum ID. Please try again.");
+            }
+
+            try
+            {
+                admin.RemoveMuseumFromCity(tourId, cityId, museumId);
+                Console.WriteLine("Museum removed from city successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         static void RemoveMemberFromTour(AdminService admin)
         {
-            // TODO: Implement
+            Console.WriteLine("Remove Member from Tour");
+
+            Guid tourId;
+            while (true)
+            {
+                Console.Write("Enter tour ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out tourId))
+                    break;
+                Console.WriteLine("Invalid tour ID. Please try again.");
+            }
+
+            Guid memberId;
+            while (true)
+            {
+                Console.Write("Enter member ID: ");
+                if (Guid.TryParse(Console.ReadLine(), out memberId))
+                    break;
+                Console.WriteLine("Invalid member ID. Please try again.");
+            }
+
+            try
+            {
+                admin.RemoveMemberFromTour(tourId, memberId);
+                Console.WriteLine("Member removed successfully.");
+            }
+            catch (ApplicationException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
     }
 }

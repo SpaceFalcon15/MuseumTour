@@ -9,7 +9,7 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public void RemoveMuseumFromCIty(Guid tourId, Guid cityId, Guid museumId)
+        public void RemoveMuseumFromCity(Guid tourId, Guid cityId, Guid museumId)
         {
             MuseumTour? tour = null;
             foreach (var t in _doc.Tours)
