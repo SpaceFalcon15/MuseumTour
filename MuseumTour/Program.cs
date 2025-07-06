@@ -81,7 +81,8 @@ namespace MuseumTour
             try
             {
                 var tour = admin.AddTour(name);
-                Console.WriteLine($" Tour created with ID: {tour.Id} and Name:{tour.Name}");
+                Console.WriteLine($" Tour created with ID: {tour.Id}\n Name: {tour.Name}");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -104,6 +105,7 @@ namespace MuseumTour
             {
                 admin.RemoveTour(tourId);
                 Console.WriteLine("Tour removed successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -155,7 +157,8 @@ namespace MuseumTour
             try
             {
                 var city = admin.AddCityToTour(tourId, cityName, startDate, endDate);
-                Console.WriteLine($"City added with ID: {city.Id}");
+                Console.WriteLine($"City added:\n ID: {city.Id},\n Name: {city.Name},\n Start Date: {city.StartDate},\n End Date: {city.EndDate}");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -207,7 +210,8 @@ namespace MuseumTour
             try
             {
                 var museum = admin.AddMuseumToCity(tourId, cityId, museumName, cost);
-                Console.WriteLine($"Museum added with ID: {museum.Id}");
+                Console.WriteLine($"Museum added:\n ID: {museum.Id},\n Name: {museum.Name},\n Cost: {museum.Cost}");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -217,7 +221,7 @@ namespace MuseumTour
 
         static void AddMemberToTour(AdminService admin)
         {
-            Console.WriteLine("=== Add Member to Tour ===");
+            Console.WriteLine("Add Member to Tour");
 
             Guid tourId;
             while (true)
@@ -251,7 +255,8 @@ namespace MuseumTour
             try
             {
                 var member = admin.AddMemberToTour(tourId, memberName, bookingNumber);
-                Console.WriteLine($"Member added with ID: {member.Id}");
+                Console.WriteLine($"Member added:\n ID: {member.Id},\n Name: {member.Name},\n Booking Number: {member.BookingNumber}");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -261,7 +266,7 @@ namespace MuseumTour
 
         static void AddVisit(AdminService admin)
         {
-            Console.WriteLine("=== Add Member Visit ===");
+            Console.WriteLine("Add Member Visit");
 
             Guid tourId;
             while (true)
@@ -312,6 +317,7 @@ namespace MuseumTour
             {
                 admin.AddVisit(tourId, cityId, museumId, memberId, visitDate);
                 Console.WriteLine("Visit booked successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -372,6 +378,7 @@ namespace MuseumTour
             {
                 admin.RemoveVisit(tourId, cityId, museumId, memberId, visitDate);
                 Console.WriteLine("Visit removed successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -405,6 +412,7 @@ namespace MuseumTour
             {
                 admin.RemoveCityFromTour(tourId, cityId);
                 Console.WriteLine("City removed from tour successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -447,6 +455,7 @@ namespace MuseumTour
             {
                 admin.RemoveMuseumFromCity(tourId, cityId, museumId);
                 Console.WriteLine("Museum removed from city successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
@@ -480,6 +489,7 @@ namespace MuseumTour
             {
                 admin.RemoveMemberFromTour(tourId, memberId);
                 Console.WriteLine("Member removed successfully.");
+                Console.WriteLine();
             }
             catch (ApplicationException ex)
             {
