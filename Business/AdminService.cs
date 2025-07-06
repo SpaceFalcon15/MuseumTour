@@ -59,6 +59,22 @@ namespace BusinessLogic
             {
                 throw new ApplicationException($"{cityName} already exists in the tour."); // Throw an exception if the city already exists.
             }
+
+            if (start > end)
+            {
+                throw new ApplicationException("The start date must be before the end date."); // Validate the start and end dates.
+            }
+
+            var city = new City
+            {
+                Name = cityName,
+                StartDate = start,
+                EndDate = end
+            };
+
+            tour.Cities.Add(city); // Add the new city to the tour's list of cities.
+            _storage.Save(_doc); // Save the updated documentation back to the XML file.
+            return city; // Return the newly created city.
         }
 
         public List<MuseumTour> GetTours()
