@@ -37,6 +37,17 @@ namespace MuseumTour
 
             Console.WriteLine($"Tour '{tour.Name}' has been created successfully with the ID {tour.Id}!");
 
+            string cityName;
+            while (true)
+            {
+                Console.Write("Enter city name: ");
+                cityName = Console.ReadLine()!; // Taking input from the user for the city name.
+                if (!string.IsNullOrWhiteSpace(cityName)) // Check if the city name is not empty or whitespace.
+                {
+                    break; // Exit the loop if the city name is valid.
+                }
+                Console.WriteLine("The city name cannot be empty. Please try again."); // Prompt the user to enter a valid city name.
+            }
             DateTime startDate, endDate;
 
             while (true)
@@ -62,7 +73,7 @@ namespace MuseumTour
 
             try
             {
-                var city = admin.AddCityToTour(tour.Id, "Sample City", startDate, endDate);
+                var city = admin.AddCityToTour(tour.Id, cityName, startDate, endDate);
                 Console.WriteLine($"City added with:\n ID: {city.Id},\n Name: {city.Name},\n Start Date: {city.StartDate},\n End Date: {city.EndDate}");
             }
             catch (ApplicationException ex)
