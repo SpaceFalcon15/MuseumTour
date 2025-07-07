@@ -9,7 +9,7 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public MuseumTour AddTour(string name)
+        public MuseumTour AddTour(string name) // Method to add a new tour with a specified name.
         {
             var tour = new MuseumTour
             {

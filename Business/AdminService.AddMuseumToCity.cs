@@ -9,10 +9,10 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public Museum AddMuseumToCity(Guid tourId, Guid cityId, string museumName, double cost)
+        public Museum AddMuseumToCity(Guid tourId, Guid cityId, string museumName, double cost) // Method to add a museum to a specific city in a tour by their IDs.
         {
             MuseumTour? tour = null;
-            foreach (var t in _doc.Tours)
+            foreach (var t in _doc.Tours) // Iterate through the list of tours in the documentation.
             {
                 if (t.Id == tourId)
                 {
@@ -20,12 +20,12 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (tour == null)
+            if (tour == null) // Check if the tour was found.
             {
                 throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
             }
             City? city = null;
-            foreach (var c in tour.Cities)
+            foreach (var c in tour.Cities) // Iterate through the list of cities in the found tour.
             {
                 if (c.Id == cityId)
                 {
@@ -33,23 +33,23 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (city == null)
+            if (city == null) // Check if the city was found.
             {
                 throw new ApplicationException("City not found in the tour"); // Throw an exception if the city does not exist.
             }
-            if (string.IsNullOrWhiteSpace(museumName))
+            if (string.IsNullOrWhiteSpace(museumName)) // Check if the museum name is empty or consists only of whitespace characters.
             {
                 throw new ApplicationException("Museum name cannot be empty."); // Validate the museum name.
             }
-            foreach (var exisiting in city.Museums)
+            foreach (var exisiting in city.Museums) // Iterate through the list of existing museums in the city to check for duplicates.
             {
-                if (exisiting.Name.ToLower() == museumName.ToLower())
+                if (exisiting.Name.ToLower() == museumName.ToLower()) // Check if the museum name already exists in the city, ignoring case.
                 {
                     throw new ApplicationException($"{museumName} already exists in {city.Name}."); // Check if the museum already exists in the city.
                 }
             }
 
-            if (cost < 0)
+            if (cost < 0) // Validate the cost of the museum.
             {
                 throw new ApplicationException("Cost cannot be negative."); // Validate the cost of the museum. 
             }

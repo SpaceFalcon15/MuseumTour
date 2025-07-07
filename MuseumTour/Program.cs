@@ -8,11 +8,14 @@ namespace MuseumTour
     {
         static void Main(string[] args)
         {
-            var storage = new XmlStorage("data.xml");
+            Console.Write("Please enter the Xml file to open (make sure to include .xml at the end): ");
+            string? fileName = Console.ReadLine();
+            string filePath = string.IsNullOrWhiteSpace(fileName) ? "data.xml" : fileName;
+            var storage = new XmlStorage(filePath);
             var doc = storage.Load(); // returns a MuseumTourDocument
             var admin = new AdminService(doc, storage);
 
-            while (true)
+            while (true) // Display the admin menu until the user chooses to exit
             {
                 Console.WriteLine("Museum Tour Admin Menu");
                 Console.WriteLine("1. Add tour");
@@ -31,7 +34,7 @@ namespace MuseumTour
                 string? input = Console.ReadLine();
                 Console.WriteLine();
 
-                switch (input)
+                switch (input) // Process the user's choice
                 {
                     case "1":
                         AddTour(admin);
@@ -68,17 +71,18 @@ namespace MuseumTour
                         return;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
+                        Console.WriteLine();
                         break;
                 }
             }
         }
-        static void AddTour(AdminService admin)
+        static void AddTour(AdminService admin) // Adds a new tour to the system
         {
             Console.WriteLine("Add Tour");
             Console.Write("Enter tour name: ");
             string name = Console.ReadLine() ?? string.Empty;
 
-            try
+            try // Attempt to add the tour with the provided name
             {
                 var tour = admin.AddTour(name);
                 Console.WriteLine($" Tour created with ID: {tour.Id}\n Name: {tour.Name}");
@@ -90,18 +94,19 @@ namespace MuseumTour
             }
         }
 
-        static void RemoveTour(AdminService admin)
+        static void RemoveTour(AdminService admin) // Removes an existing tour from the system
         {
             Console.WriteLine("Remove Tour");
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter the Tour ID to remove: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
                     break;
                 Console.WriteLine("Invalid Tour ID. Please try again.");
             }
-            try
+
+            try // Attempt to remove the tour by ID
             {
                 admin.RemoveTour(tourId);
                 Console.WriteLine("Tour removed successfully.");
@@ -110,15 +115,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($" Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void AddCityToTour(AdminService admin)
+        static void AddCityToTour(AdminService admin) // Adds a new city to an existing tour
         {
             Console.WriteLine("Add City to Tour");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -127,7 +133,7 @@ namespace MuseumTour
             }
 
             string cityName;
-            while (true)
+            while (true) // Loop until a valid city name is entered
             {
                 Console.Write("Enter city name: ");
                 cityName = Console.ReadLine() ?? string.Empty;
@@ -137,7 +143,7 @@ namespace MuseumTour
             }
 
             DateTime startDate;
-            while (true)
+            while (true) // Loop until a valid start date is entered
             {
                 Console.Write("Enter start date (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out startDate))
@@ -146,7 +152,7 @@ namespace MuseumTour
             }
 
             DateTime endDate;
-            while (true)
+            while (true) // Loop until a valid end date is entered
             {
                 Console.Write("Enter end date (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out endDate))
@@ -154,7 +160,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid end date.");
             }
 
-            try
+            try // Attempt to add the city to the tour
             {
                 var city = admin.AddCityToTour(tourId, cityName, startDate, endDate);
                 Console.WriteLine($"City added:\n ID: {city.Id},\n Name: {city.Name},\n Start Date: {city.StartDate},\n End Date: {city.EndDate}");
@@ -163,15 +169,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void AddMuseumToCity(AdminService admin)
+        static void AddMuseumToCity(AdminService admin) // Adds a new museum to an existing city in a tour
         {
             Console.WriteLine("Add Museum to City");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -180,7 +187,7 @@ namespace MuseumTour
             }
 
             Guid cityId;
-            while (true)
+            while (true) // Loop until a valid city ID is entered
             {
                 Console.Write("Enter city ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out cityId))
@@ -189,7 +196,7 @@ namespace MuseumTour
             }
 
             string museumName;
-            while (true)
+            while (true) // Loop until a valid museum name is entered
             {
                 Console.Write("Enter museum name: ");
                 museumName = Console.ReadLine() ?? string.Empty;
@@ -199,7 +206,7 @@ namespace MuseumTour
             }
 
             double cost;
-            while (true)
+            while (true) // Loop until a valid cost is entered
             {
                 Console.Write("Enter museum cost: ");
                 if (double.TryParse(Console.ReadLine(), out cost) && cost >= 0)
@@ -207,7 +214,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid cost. Please enter a non-negative number.");
             }
 
-            try
+            try // Attempt to add the museum to the city in the tour
             {
                 var museum = admin.AddMuseumToCity(tourId, cityId, museumName, cost);
                 Console.WriteLine($"Museum added:\n ID: {museum.Id},\n Name: {museum.Name},\n Cost: {museum.Cost}");
@@ -216,15 +223,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void AddMemberToTour(AdminService admin)
+        static void AddMemberToTour(AdminService admin) // Adds a new member to an existing tour
         {
             Console.WriteLine("Add Member to Tour");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -233,7 +241,7 @@ namespace MuseumTour
             }
 
             string memberName;
-            while (true)
+            while (true) // Loop until a valid member name is entered
             {
                 Console.Write("Enter member name: ");
                 memberName = Console.ReadLine() ?? string.Empty;
@@ -243,7 +251,7 @@ namespace MuseumTour
             }
 
             string bookingNumber;
-            while (true)
+            while (true) // Loop until a valid booking number is entered
             {
                 Console.Write("Enter booking number: ");
                 bookingNumber = Console.ReadLine() ?? string.Empty;
@@ -252,7 +260,7 @@ namespace MuseumTour
                 Console.WriteLine("Booking number cannot be empty.");
             }
 
-            try
+            try // Attempt to add the member to the tour
             {
                 var member = admin.AddMemberToTour(tourId, memberName, bookingNumber);
                 Console.WriteLine($"Member added:\n ID: {member.Id},\n Name: {member.Name},\n Booking Number: {member.BookingNumber}");
@@ -261,15 +269,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void AddVisit(AdminService admin)
+        static void AddVisit(AdminService admin) // Adds a visit for a member to a museum in a city of a tour
         {
             Console.WriteLine("Add Member Visit");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -278,7 +287,7 @@ namespace MuseumTour
             }
 
             Guid cityId;
-            while (true)
+            while (true) // Loop until a valid city ID is entered
             {
                 Console.Write("Enter city ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out cityId))
@@ -287,7 +296,7 @@ namespace MuseumTour
             }
 
             Guid museumId;
-            while (true)
+            while (true) // Loop until a valid museum ID is entered
             {
                 Console.Write("Enter museum ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out museumId))
@@ -296,7 +305,7 @@ namespace MuseumTour
             }
 
             Guid memberId;
-            while (true)
+            while (true) // Loop until a valid member ID is entered
             {
                 Console.Write("Enter member ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out memberId))
@@ -305,7 +314,7 @@ namespace MuseumTour
             }
 
             DateTime visitDate;
-            while (true)
+            while (true) // Loop until a valid visit date is entered
             {
                 Console.Write("Enter visit date (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out visitDate))
@@ -313,7 +322,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid date format. Please try again.");
             }
 
-            try
+            try // Attempt to add the visit for the member
             {
                 admin.AddVisit(tourId, cityId, museumId, memberId, visitDate);
                 Console.WriteLine("Visit booked successfully.");
@@ -322,15 +331,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void RemoveVisit(AdminService admin)
+        static void RemoveVisit(AdminService admin) // Removes a visit for a member from a museum in a city of a tour
         {
             Console.WriteLine("Remove Member Visit");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -339,7 +349,7 @@ namespace MuseumTour
             }
 
             Guid cityId;
-            while (true)
+            while (true) // Loop until a valid city ID is entered
             {
                 Console.Write("Enter city ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out cityId))
@@ -348,7 +358,7 @@ namespace MuseumTour
             }
 
             Guid museumId;
-            while (true)
+            while (true) // Loop until a valid museum ID is entered
             {
                 Console.Write("Enter museum ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out museumId))
@@ -357,7 +367,7 @@ namespace MuseumTour
             }
 
             Guid memberId;
-            while (true)
+            while (true) // Loop until a valid member ID is entered
             {
                 Console.Write("Enter member ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out memberId))
@@ -366,7 +376,7 @@ namespace MuseumTour
             }
 
             DateTime visitDate;
-            while (true)
+            while (true) // Loop until a valid visit date is entered
             {
                 Console.Write("Enter visit date (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out visitDate))
@@ -374,7 +384,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid date format. Please try again.");
             }
 
-            try
+            try // Attempt to remove the visit for the member
             {
                 admin.RemoveVisit(tourId, cityId, museumId, memberId, visitDate);
                 Console.WriteLine("Visit removed successfully.");
@@ -383,15 +393,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void RemoveCityFromTour(AdminService admin)
+        static void RemoveCityFromTour(AdminService admin) // Removes a city from an existing tour
         {
             Console.WriteLine("Remove City from Tour");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -400,7 +411,7 @@ namespace MuseumTour
             }
 
             Guid cityId;
-            while (true)
+            while (true) // Loop until a valid city ID is entered
             {
                 Console.Write("Enter city ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out cityId))
@@ -408,7 +419,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid city ID. Please try again.");
             }
 
-            try
+            try // Attempt to remove the city from the tour
             {
                 admin.RemoveCityFromTour(tourId, cityId);
                 Console.WriteLine("City removed from tour successfully.");
@@ -417,15 +428,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void RemoveMuseumFromCity(AdminService admin)
+        static void RemoveMuseumFromCity(AdminService admin) // Removes a museum from an existing city in a tour
         {
             Console.WriteLine("Remove Museum from City");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -434,7 +446,7 @@ namespace MuseumTour
             }
 
             Guid cityId;
-            while (true)
+            while (true) // Loop until a valid city ID is entered
             {
                 Console.Write("Enter city ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out cityId))
@@ -443,7 +455,7 @@ namespace MuseumTour
             }
 
             Guid museumId;
-            while (true)
+            while (true) // Loop until a valid museum ID is entered
             {
                 Console.Write("Enter museum ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out museumId))
@@ -451,7 +463,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid museum ID. Please try again.");
             }
 
-            try
+            try // Attempt to remove the museum from the city
             {
                 admin.RemoveMuseumFromCity(tourId, cityId, museumId);
                 Console.WriteLine("Museum removed from city successfully.");
@@ -460,15 +472,16 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
 
-        static void RemoveMemberFromTour(AdminService admin)
+        static void RemoveMemberFromTour(AdminService admin) // Removes a member from an existing tour
         {
             Console.WriteLine("Remove Member from Tour");
 
             Guid tourId;
-            while (true)
+            while (true) // Loop until a valid tour ID is entered
             {
                 Console.Write("Enter tour ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out tourId))
@@ -477,7 +490,7 @@ namespace MuseumTour
             }
 
             Guid memberId;
-            while (true)
+            while (true) // Loop until a valid member ID is entered
             {
                 Console.Write("Enter member ID: ");
                 if (Guid.TryParse(Console.ReadLine(), out memberId))
@@ -485,7 +498,7 @@ namespace MuseumTour
                 Console.WriteLine("Invalid member ID. Please try again.");
             }
 
-            try
+            try // Attempt to remove the member from the tour
             {
                 admin.RemoveMemberFromTour(tourId, memberId);
                 Console.WriteLine("Member removed successfully.");
@@ -494,6 +507,7 @@ namespace MuseumTour
             catch (ApplicationException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
     }

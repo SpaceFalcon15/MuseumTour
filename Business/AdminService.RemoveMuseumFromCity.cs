@@ -9,10 +9,10 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public void RemoveMuseumFromCity(Guid tourId, Guid cityId, Guid museumId)
+        public void RemoveMuseumFromCity(Guid tourId, Guid cityId, Guid museumId) // Method to remove a museum from a specific city in a tour by their IDs.
         {
             MuseumTour? tour = null;
-            foreach (var t in _doc.Tours)
+            foreach (var t in _doc.Tours) // Iterate through the list of tours in the documentation.
             {
                 if (t.Id == tourId)
                 {
@@ -20,12 +20,12 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (tour == null)
+            if (tour == null) // Check if the tour was found.
             {
                 throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
             }
             City? city = null;
-            foreach (var c in tour.Cities)
+            foreach (var c in tour.Cities) // Iterate through the list of cities in the found tour.
             {
                 if (c.Id == cityId)
                 {
@@ -33,13 +33,13 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (city == null)
+            if (city == null) // Check if the city was found.
             {
                 throw new ApplicationException("City not found in the tour"); // Throw an exception if the city does not exist.
             }
 
             Museum? museum = null;
-            foreach (var m in city.Museums)
+            foreach (var m in city.Museums) // Iterate through the list of museums in the city.
             {
                 if (m.Id == museumId)
                 {
@@ -47,7 +47,7 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (museum == null)
+            if (museum == null) // Check if the museum was found.
             {
                 throw new ApplicationException("Museum not found in the city"); // Throw an exception if the museum does not exist.
             }

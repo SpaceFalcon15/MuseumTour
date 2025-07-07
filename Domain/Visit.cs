@@ -9,13 +9,16 @@ namespace Domain
 {
     public class Visit
     {
-        [XmlAttribute("id")]
+        [XmlAttribute("id")] // XML attribute for the visit ID.
         public Guid Id { get; set; } = Guid.NewGuid(); // Generates a new ID for each Visit instance.
-        [XmlAttribute("memberId")]
-        public Guid MuseumId { get; set; } // ID of the museum visited.
-        [XmlAttribute("date")]
+
+        [XmlAttribute("memberId")] // XML attribute for the member ID.
+        public Guid MemberId { get; set; } // ID of the museum visited.
+
+        [XmlAttribute("date")] // XML attribute for the visit date.
         public DateTime Date { get; set; } // Date of the visit.
-        [XmlAttribute("isPaid")]
-        public bool IsPaid { get; set; } = false;
+
+        [XmlAttribute("isPaid")] // XML attribute for the payment status.
+        public bool IsPaid { get; set; } = false; // Indicates whether the visit has been paid for, initialized to false.
     }
 }

@@ -9,11 +9,13 @@ namespace Domain
 {
     public class Member
     {
-        [XmlAttribute("id")]
+        [XmlAttribute("id")] // XML attribute for the member ID.
         public Guid Id { get; set; } = Guid.NewGuid(); // Generates a new ID for each Member instance.
-        [XmlAttribute("name")]
+
+        [XmlAttribute("name")] // XML attribute for the member name.
         public string Name { get; set; } = string.Empty; // Name of the member.
-        [XmlAttribute("bookingNumber")]
+
+        [XmlAttribute("bookingNumber")] // XML attribute for the booking number.
         public string BookingNumber { get; set; } = string.Empty; // Booking number for the member.
     }
 }

@@ -9,11 +9,11 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public void RemoveMemberFromTour(Guid tourId, Guid memberId)
+        public void RemoveMemberFromTour(Guid tourId, Guid memberId) // Method to remove a member from a specific tour by their IDs.
         {
             // Find the tour
             MuseumTour? tour = null;
-            foreach (var t in _doc.Tours)
+            foreach (var t in _doc.Tours) // Iterate through the list of tours in the documentation.
             {
                 if (t.Id == tourId)
                 {
@@ -21,13 +21,13 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (tour == null)
+            if (tour == null) // Check if the tour was found.
             {
                 throw new ApplicationException("Tour not found"); // Throw an exception if the tour does not exist.
             }
             // Find the member
             Member? member = null;
-            foreach (var m in tour.Members)
+            foreach (var m in tour.Members) // Iterate through the list of members in the tour.
             {
                 if (m.Id == memberId)
                 {
@@ -35,7 +35,7 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (member == null)
+            if (member == null) // Check if the member was found.
             {
                 throw new ApplicationException("Member not found in the tour"); // Throw an exception if the member does not exist.
             }

@@ -9,13 +9,16 @@ namespace Domain
 {
     public class Museum
     {
-        [XmlAttribute("id")]
+        [XmlAttribute("id")] // XML attribute for the museum ID.
         public Guid Id { get; set; } = Guid.NewGuid(); // Generates a new ID for each Museum instance.
-        [XmlAttribute("name")]
+
+        [XmlAttribute("name")] // XML attribute for the museum name.
         public string Name { get; set; } = string.Empty; // Name of the museum, initialized to an empty string.
-        [XmlAttribute("cost")]
+
+        [XmlAttribute("cost")] // XML attribute for the cost of visiting the museum.
         public double Cost { get; set; } // Cost of visiting the museum.
-        [XmlArray("Visits"), XmlArrayItem("Visit")]
-        public List<Visit> Visits { get; set; } = new();
+
+        [XmlArray("Visits"), XmlArrayItem("Visit")] // XML array for the list of visits to the museum.
+        public List<Visit> Visits { get; set; } = new(); // List of visits to the museum, initialized to an empty list.
     }   
 }

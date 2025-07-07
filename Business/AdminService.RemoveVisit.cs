@@ -9,11 +9,11 @@ namespace BusinessLogic
 {
     public partial class AdminService
     {
-        public void RemoveVisit(Guid tourId, Guid cityId, Guid museumId, Guid memberId, DateTime visitDate)
+        public void RemoveVisit(Guid tourId, Guid cityId, Guid museumId, Guid memberId, DateTime visitDate) // Method to remove a visit from a specific museum in a city of a tour by their IDs and visit date.
         {
-            
+
             MuseumTour? tour = null;
-            foreach (var t in _doc.Tours)
+            foreach (var t in _doc.Tours) // Iterate through the list of tours in the documentation.
             {
                 if (t.Id == tourId)
                 {
@@ -21,11 +21,12 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (tour == null)
+            if (tour == null) // Check if the tour was found.
+            {
                 throw new ApplicationException("Tour not found.");
-
+            }
             City? city = null;
-            foreach (var c in tour.Cities)
+            foreach (var c in tour.Cities) // Iterate through the list of cities in the found tour.
             {
                 if (c.Id == cityId)
                 {
@@ -33,11 +34,12 @@ namespace BusinessLogic
                     break;
                 }
             }
-            if (city == null)
+            if (city == null) // Check if the city was found.
+            {
                 throw new ApplicationException("City not found in the tour.");
-
+            }
             Museum? museum = null;
-            foreach (var m in city.Museums)
+            foreach (var m in city.Museums) // Iterate through the list of museums in the city.
             {
                 if (m.Id == museumId)
                 {
@@ -46,11 +48,12 @@ namespace BusinessLogic
                 }
             }
             if (museum == null)
+            {
                 throw new ApplicationException("Museum not found in the city.");
+            }
 
-            // --- Find visit -----------------------------------------------------
             Visit? visitToRemove = null;
-            foreach (var v in museum.Visits)
+            foreach (var v in museum.Visits) // Iterate through the list of visits in the museum.
             {
                 if (v.MemberId == memberId && v.Date.Date == visitDate.Date)
                 {
@@ -59,12 +62,13 @@ namespace BusinessLogic
                 }
             }
 
-            if (visitToRemove == null)
+            if (visitToRemove == null) // Check if the visit was found.
+            {
                 throw new ApplicationException("Visit not found for this member on that date.");
+            }
 
-            // --- Remove and save ------------------------------------------------
-            museum.Visits.Remove(visitToRemove);
-            _storage.Save(_doc);
+            museum.Visits.Remove(visitToRemove); // Remove the visit from the museum's list of visits.
+            _storage.Save(_doc); // Save the updated documentation back to the XML file.
         }
     }
 }
