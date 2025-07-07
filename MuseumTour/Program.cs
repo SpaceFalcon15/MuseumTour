@@ -8,7 +8,7 @@ namespace MuseumTour
     {
         static void Main(string[] args)
         {
-            Console.Write("Please enter the Xml file to open (make sure to include .xml at the end): ");
+            Console.Write("Please enter the Xml file to open (base file is data.xml): ");
             string? fileName = Console.ReadLine();
             string filePath = string.IsNullOrWhiteSpace(fileName) ? "data.xml" : fileName;
             var storage = new XmlStorage(filePath);
